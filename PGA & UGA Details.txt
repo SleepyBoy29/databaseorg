@@ -1,0 +1,18 @@
+column statistic for a30
+select s.sid, n.name|| '('||s.statistic#||')' statistic,value
+from v$sesstat s , v$statname n, v$session s1
+where s.statistic# = n.statistic#
+and n.name like '%ga memory%'
+and s.statistic#=25
+and s1.sid=s.sid
+order by value;
+
+prompt total memory
+
+select sum(value)/1024
+from v$sesstat s , v$statname n, v$session s1
+where s.statistic# = n.statistic#
+and n.name like '%ga memory%'
+and s.statistic#=25
+and s1.sid=s.sid
+order by value;

@@ -1,0 +1,20 @@
+set colsep '|'
+set linesize 190
+column tablespace format a20
+column "Datafile name" format a50
+column "File Type" format a20
+
+Select t.tablespace_name "Tablespace", 'datafile' "File Type",
+t.status "Status",
+ROUND((MAX(d.bytes)/1024/1024) - (SUM(decode(f.bytes, NULL,0, f.bytes))/1024/1024),0) "Used MB",
+ROUND(SUM(decode(f.bytes, NULL,0, f.bytes))/1024/1024,0) "Free MB",
+t.initial_extent "Initial Extent",
+d.file_name "Datafile name"
+FROM DBA_FREE_SPACE f, DBA_DATA_FILES d, DBA_TABLESPACES t
+WHERE t.tablespace_name = d.tablespace_name
+AND f.tablespace_name(+) = d.tablespace_name
+AND f.file_id(+) = d.file_id
+GROUP BY t.tablespace_name, d.file_name, t.initial_extent,
+t.next_extent, t.min_extents, t.max_extents,
+t.pct_increase, t.status
+order by 1;

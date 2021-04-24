@@ -1,0 +1,60 @@
+set colsep '|'
+set line 180;
+column 00 format a4
+column 01 format a4
+column 02 format a4
+column 03 format a4
+column 04 format a4
+column 05 format a4
+column 06 format a4
+column 07 format a4
+column 08 format a4
+column 09 format a4
+column 10 format a4
+column 11 format a4
+column 12 format a4
+column 13 format a4
+column 14 format a4
+column 15 format a4
+column 16 format a4
+column 17 format a4
+column 18 format a4
+column 19 format a4
+column 20 format a4
+column 21 format a4
+column 22 format a4
+column 23 format a4
+
+COLUMN DAY FORMAT A10
+
+SELECT SUBSTR(first_time,1,9) DAY,
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'00',1,0)),'999') "00",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'01',1,0)),'999') "01",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'02',1,0)),'999') "02",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'03',1,0)),'999') "03",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'04',1,0)),'999') "04",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'05',1,0)),'999') "05",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'06',1,0)),'999') "06",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'07',1,0)),'999') "07",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'08',1,0)),'999') "08",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'09',1,0)),'999') "09",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'10',1,0)),'999') "10",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'11',1,0)),'999') "11",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'12',1,0)),'999') "12",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'13',1,0)),'999') "13",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'14',1,0)),'999') "14",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'15',1,0)),'999') "15",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'16',1,0)),'999') "16",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'17',1,0)),'999') "17",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'18',1,0)),'999') "18",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'19',1,0)),'999') "19",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'20',1,0)),'999') "20",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'21',1,0)),'999') "21",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'22',1,0)),'999') "22",
+TO_CHAR(SUM(DECODE(SUBSTR(TO_CHAR(first_time,'DD-MM-YY HH24:MI:SS'),10,2),'23',1,0)),'999') "23" ,
+count(*) "Total"
+FROM v$log_history
+WHERE SUBSTR(first_time,1,9) LIKE '%&MONTH%'
+GROUP BY SUBSTR(first_time,1,9)
+ORDER BY SUBSTR(DAY,7,9),SUBSTR(DAY,1,6),SUBSTR(DAY,1,2)
+;

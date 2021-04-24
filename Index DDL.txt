@@ -1,0 +1,6 @@
+Index DDL
+
+set long 5000
+set pagesize 0
+
+select DBMS_METADATA.GET_DDL('INDEX',u.index_name,'USER_NAME') from DBA_INDEXES u where table_name='TABLE_NAME';

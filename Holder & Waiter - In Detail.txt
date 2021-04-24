@@ -1,0 +1,21 @@
+column su format a8 heading 'Oracle|User ID' justify left
+column prog format a25 heading 'Program' justify left
+column sess format a15 heading 'State|SID' justify left
+column ssid format 999999 heading 'Sid' justify right
+column sser format 999999 heading 'Sr#' justify right
+column UPId format a10 heading 'UPId' justify centre
+column ctime format a15 word heading 'Lock Time'
+column locktime format a10
+column BLOCKER format a10
+column WAITER format a10
+column txt format a48 word heading 'SQL TEXT' word_wrapped
+
+select s.inst_id,l.sess,lpad(p.spid,7) UPId,s.username su,s.program prog,s.status,substr(sa.sql_text,1,2000) txt,l.locktime from gV$sqlarea sa, gV$session s,gV$process p, (select inst_id,SID,substr(DECODE(request,0,'Holder: ','Waiter: ')||sid,1,12) sess,ltrim(to_char(floor(ctime/3600),'09')) ||':'|| ltrim(to_char(floor(mod(ctime,3600)/60),'09')) ||':'|| ltrim(to_char(mod(ctime,60),'09')) as locktime,id1, id2, lmode, request, type FROM GV$LOCK WHERE (id1, id2, type) IN (SELECT id1, id2, type FROM GV$LOCK WHERE request>0) and ctime>=10) l
+WHERE l.inst_id=s.inst_id and
+l.inst_id=p.inst_id and
+l.sid=s.sid and
+s.USERNAME <> ' ' and
+s.sql_address=sa.address(+) and
+s.sql_hash_value=sa.hash_value(+) and
+s.paddr = p.addr
+ORDER BY 1;

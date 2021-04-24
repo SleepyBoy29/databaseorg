@@ -1,0 +1,25 @@
+set line 290
+set colsep '|'
+COLUMN COLUMN_NAME FORMAT A40
+COLUMN OWNER FORMAT A20
+COLUMN INDEX_TYPE FORMAT A15
+COLUMN TABLE_OWNER FORMAT A20
+column INDEX_OWNER format a20
+
+select owner,index_name,index_type,STATUS,table_owner,table_name,tablespace_name,compression,visibility,DEGREE
+from dba_indexes
+where table_name like '&&TABLE_NAME' ;
+
+SELECT * FROM DBA_IND_COLUMNS
+WHERE TABLE_NAME LIKE '&TABLE_NAME'
+order by index_name,column_name;
+
+SELECT DISTINCT INDEX_OWNER,INDEX_NAME,COMPOSITE,STATUS,SUBPARTITION_COUNT,COUNT(*)
+FROM DBA_IND_PARTITIONS
+WHERE INDEX_NAME IN(
+select index_name
+from dba_indexes
+where table_name like '&TABLE_NAME')
+GROUP BY INDEX_OWNER,INDEX_NAME,COMPOSITE,STATUS,SUBPARTITION_COUNT
+ORDER BY 1,2
+;

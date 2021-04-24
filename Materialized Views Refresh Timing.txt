@@ -1,0 +1,13 @@
+COLUMN job format 9999
+COLUMN mview_name format a50 wrap heading "Mview|Name"
+COLUMN last_run format a20
+COLUMN next_run format a20
+COLUMN interval format a20
+
+SET pages 56 lines 130 feedback on echo off long 1000000
+TTITLE 'Refresh Times of MViews'
+SELECT job, what mview_name,
+TO_CHAR (last_date, 'mm/dd/yyyy hh24:mm:ss') last_run,
+TO_CHAR (next_date, 'mm/dd/yyyy hh24:mm:ss') next_run, INTERVAL
+FROM dba_jobs
+WHERE what LIKE 'dbms_refresh.refresh%';

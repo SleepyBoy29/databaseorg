@@ -1,0 +1,7 @@
+set line 190 pages 190
+alter session set nls_date_format='dd-mon-yyyy hh24:mi:ss';
+
+select input_type,SESSION_KEY,START_TIME,END_TIME,OUTPUT_BYTES/1024/1024,ELAPSED_SECONDS,status,OUTPUT_BYTES_PER_SEC/1024/1024 mb_per_sec
+from V$RMAN_BACKUP_JOB_DETAILS
+order by start_time
+;

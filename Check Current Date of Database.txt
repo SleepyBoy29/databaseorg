@@ -1,0 +1,6 @@
+Check Current Date of Database using query.
+
+alter session set nls_Date_format='DD-MON-YYYY HH24:MI:SS';
+
+select sysdate from dual;
+

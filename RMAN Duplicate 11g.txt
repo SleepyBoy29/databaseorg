@@ -1,0 +1,29 @@
+RMAN Duplicate:
+
+export ORACLE_HOME=/u01/db/oracle/product/db_home1
+export ORACLE_SID=OBIT
+export PATH=$PATH:$ORACLE_HOME/bin
+export LOG=/u01/Backup/IT/TKT950/DB_Duplicate.log
+cd /u01/db/oracle/product/11.2.0.3/bin
+./rman auxiliary / <<EOF>>$LOG
+run {
+allocate auxiliary channel aux1 device type disk;
+allocate auxiliary channel aux2 device type disk;
+allocate auxiliary channel aux3 device type disk;
+allocate auxiliary channel aux4 device type disk;
+allocate auxiliary channel aux5 device type disk;
+allocate auxiliary channel aux6 device type disk;
+allocate auxiliary channel aux7 device type disk;
+allocate auxiliary channel aux8 device type disk;
+DUPLICATE DATABASE TO OBIT BACKUP LOCATION '/u02/Backup/TKT112233/PROD_BKP' nofilenamecheck;
+release channel aux1;
+release channel aux2;
+release channel aux3;
+release channel aux4;
+release channel aux5;
+release channel aux6;
+release channel aux7;
+release channel aux8;
+}
+EXIT;
+EOF

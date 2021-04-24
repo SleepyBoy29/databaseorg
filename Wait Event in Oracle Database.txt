@@ -1,0 +1,27 @@
+set colsep '|'
+set pagesize 2000
+set linesize 150
+column username format a15
+column sid format 9999
+column status format a10
+column event format a30
+column name format a30
+column p1 format a20
+column p2 format a20
+column p3 format a20
+
+select v.sid,
+v.username username,
+v.status status,
+n.name,
+w.state,
+n.parameter1 || ' : ' || w.p1 p1,
+n.parameter2 || ' : ' || w.p2 p2,
+n.parameter3 || ' : ' || w.p3 p3
+from v$session v, v$event_name n , v$session_wait w
+where v.username is not null
+and w.event = n.name
+and w.sid=v.sid
+and w.event not in('null event')
+and v.STATUS='ACTIVE'
+/

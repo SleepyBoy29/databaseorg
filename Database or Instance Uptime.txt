@@ -1,0 +1,13 @@
+col instance_name for a15
+col "Instance Up Time" for a30
+col host_name for a20
+
+SELECT instance_name, host_name,
+floor(((sysdate-startup_time)*24*60*60)/3600/24) || ' DAYS '
+|| floor ((floor(((sysdate-startup_time)*24*60*60)) -
+floor(((sysdate-startup_time)*24*60*60)/3600/24)*24*60*60)/3600) || ' Hours '
+|| floor(floor ((floor(((sysdate-startup_time)*24*60*60))
+- floor(((sysdate-startup_time)*24*60*60)/3600/24)*24*60*60) -
+( floor ((floor(((sysdate-startup_time)*24*60*60)) -
+floor(((sysdate-startup_time)*24*60*60)/3600/24)*24*60*60)/3600))*60*60)/60) || ' MINUTES ' "Instance Up Time"
+FROM gv$instance;

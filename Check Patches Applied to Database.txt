@@ -1,0 +1,12 @@
+Query to Check Patches Applied to Database.
+
+SET linesize 200 pagesize 200
+col action_time FOR a28
+col version FOR a10
+col comments FOR a35
+col action FOR a25
+col namespace FOR a12
+
+SELECT * FROM registry$history;
+SELECT patch_id, version, status, bundle_id, bundle_series FROM dba_registry_sqlpatch;
+

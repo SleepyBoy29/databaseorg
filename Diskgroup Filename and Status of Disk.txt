@@ -1,0 +1,7 @@
+column path format a45
+set line 190 pages 1900
+
+select a.GROUP_NUMBER,b.DISK_NUMBER,b.NAME,b.REDUNDANCY,b.path, b.mount_status, b.header_status,b.mode_status,b.state,b.create_date
+from v$asm_diskgroup a, v$asm_disk b
+where a.GROUP_NUMBER (+)=b.GROUP_NUMBER
+;

@@ -1,0 +1,14 @@
+set line 170
+set colsep '|'
+COLUMN MODE FORMAT A10
+COLUMN LOCK_ID1 FORMAT A15
+COLUMN LOCK_ID2 FORMAT A15
+COLUMN BLOCKING_OTHERS FORMAT A20
+COLUMN USERNAME FORMAT A20
+COLUMN OBJECT_NAME FORMAT A20
+COLUMN USERNAME FORMAT A25
+
+select v$lock.sid,v$lock.type,v$lock.id1,v$lock.lmode,request,object_name,username from v$lock,dba_objects,v$session
+where v$lock.id1=dba_objects.object_id
+and v$lock.sid=v$session.sid
+AND V$SESSION.USERNAME IS NOT NULL;

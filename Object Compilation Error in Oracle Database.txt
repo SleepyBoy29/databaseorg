@@ -1,0 +1,13 @@
+set verify off
+SET COLSEP '|'
+SET LONG 200000
+SET LINESIZE 400
+SET PAGESIZE 2000
+COLUMN OBJ_DDL FOR A180 word_wrap
+COLUMN USERNAME FOR A30
+
+select owner,name,type,line,position,text from dba_errors where owner like 'HR' and name like 'HR_EMP_VW';
+
+#Get DDL of the OBJECT:
+
+SELECT DBMS_METADATA.GET_DDL('&OBJECT_TYPE','&OBJECT_NAME','&SCHEMA') OBJ_DDL FROM DUAL;

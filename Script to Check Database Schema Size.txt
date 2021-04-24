@@ -1,0 +1,12 @@
+set linesize 150
+set pagesize 5000
+col owner for a15
+col segment_name for a30
+col segment_type for a20
+col TABLESPACE_NAME for a30
+clear breaks
+clear computes
+compute sum of SIZE_IN_GB on report
+break on report
+
+select OWNER,sum(bytes)/1024/1024/1024 "SIZE_IN_GB" from dba_segments group by owner order by owner;

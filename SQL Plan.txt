@@ -1,0 +1,11 @@
+set line 140
+column operation format a40
+
+SELECT id, parent_id, LPAD (' ', LEVEL - 1) || operation || ' ' || options operation, object_name,cost
+FROM ( SELECT id, parent_id, operation, options, object_name,cost
+FROM v$sql_plan
+WHERE address = '&address'
+AND hash_value = &hashvalue
+AND child_number = 0
+) START WITH id = 0
+CONNECT BY PRIOR id = parent_id;

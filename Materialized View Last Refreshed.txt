@@ -1,0 +1,2 @@
+SELECT owner, mview_name, TO_CHAR (last_refresh_date,'mm/dd/yyyy hh24:mm:ss') last_refresh_date
+FROM all_mviews WHERE owner = 'SYSADM' AND mview_name = 'MV_NAME';

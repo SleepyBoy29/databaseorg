@@ -1,0 +1,16 @@
+set colsep '|'
+set pagesize 100
+set linesize 130
+column username format a20 heading 'USERNAME'
+column sql_text format a60 word_wrapped HEADING 'SQLTEXT'
+column sid format 9999 HEADING 'SID'
+column status format a10 HEADING 'STATUS'
+SET VERIFY OFF
+
+select s.sql_text,
+sid,
+v.username,
+v.status
+from v$session v, v$sqlarea s
+where v.sql_address = s.address
+and v.sql_hash_value = s.hash_value;

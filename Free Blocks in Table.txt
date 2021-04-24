@@ -1,0 +1,15 @@
+SET SERVEROUTPUT ON;
+set verify off;
+DECLARE
+free_blocks number;
+BEGIN
+DBMS_SPACE.FREE_BLOCKS(
+segment_owner => '&owner',
+segment_name => '&table_name',
+segment_type => 'TABLE',
+freelist_group_id => null,
+free_blks => free_blocks
+);
+dbms_output.put_line('FREE BLOCKS IN TABLE '|| free_blocks);
+END;
+/

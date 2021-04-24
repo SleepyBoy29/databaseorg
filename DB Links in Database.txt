@@ -1,0 +1,6 @@
+col db_link format a20
+col HOST format a20
+col owner format a10
+col USERNAME format a15
+set lines 100
+select * from dba_db_links ;

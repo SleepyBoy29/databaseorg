@@ -1,0 +1,6 @@
+SET LINESIZE 150
+COLUMN INDEX_OWNER FORMAT A30
+COLUMN TABLE_NAME FORMAT A30
+COLUMN INDEX_NAME FORMAT A30
+
+select index_owner,table_name,index_name,column_name,column_position from dba_ind_columns where table_name='&table_name';

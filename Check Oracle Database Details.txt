@@ -1,0 +1,7 @@
+Check Oracle Database Details.
+
+set colsep '|'
+set line 190
+column host_name format a40
+select name,open_mode,log_mode,flashback_on,instance_name,host_name,logins from gv$database,gv$instance;
+

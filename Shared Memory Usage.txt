@@ -1,0 +1,7 @@
+SELECT * FROM v$sgastat WHERE name = 'free memory';
+
+select pool,name,bytes from v$sgastat where name='free memory' and pool='shared pool';
+
+select FREE_SPACE,REQUEST_MISSES,REQUEST_FAILURES from v$shared_pool_reserved;
+
+select to_char(sysdate,'mm-dd-yyyy hh24:mi:ss'), name, bytes/(1024*1024) from v$sgastat, dual where pool like '%shared%' and name = 'free memory' order by bytes asc;

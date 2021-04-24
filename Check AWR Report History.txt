@@ -1,0 +1,5 @@
+set line 190
+column SNAP_INTERVAL format a30
+column RETENTION format a30
+
+select * from dba_hist_wr_control;

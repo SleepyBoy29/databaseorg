@@ -1,0 +1,13 @@
+set line 200
+set colsep '|'
+
+SELECT b.username, b.osuser, b.status, a.* FROM
+(SELECT SID, ROUND(VALUE/1024/1024) AS "RedoSize(MB)"
+FROM v$statname n, v$sesstat s
+WHERE n.NAME = 'redo size'
+AND s.statistic# = n.statistic#
+ORDER BY VALUE DESC) a,
+v$session b
+WHERE a.SID = b.SID
+AND B.USERNAME IS NOT NULL
+AND ROWNUM <= 10;

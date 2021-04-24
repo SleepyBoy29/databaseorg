@@ -1,0 +1,9 @@
+set colsep '|'
+set verify off
+set line 140
+column operation format a80
+SELECT id, parent_id, LPAD (' ', LEVEL - 1) || operation || ' ' || options operation, object_name,cost,Cpu_cost,io_cost,time
+FROM ( SELECT id, parent_id, operation, options, object_name,cost,Cpu_cost,io_cost,time
+FROM DBA_HIST_SQL_PLAN
+WHERE SQL_ID = '&SQL_ID'
+AND PLAN_hash_value = &PLANHASHVALUE) START WITH id = 0 CONNECT BY PRIOR id = parent_id;

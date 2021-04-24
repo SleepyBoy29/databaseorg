@@ -1,0 +1,34 @@
+Check Oracle Database Growth OEM Script. Provide target guid in second select statement.
+
+column TARGET_NAME format a30
+column TARGET_TYPE format a30
+set line 190
+
+SQL> select distinct TARGET_NAME,TARGET_TYPE ,TARGET_GUID from mgmt$target_type where upper(TARGET_NAME) like '%CENTRALDB%';
+
+TARGET_NAME TARGET_TYPE TARGET_GUID
+------------------------------ ------------------------------ --------------------------------
+centraldb oracle_database 7C38DC2A2BB3ABD76C80F41B4
+
+SELECT
+decode(m.metric_column, 'ALLOCATED_GB', 'ALLOCATED_GB',
+'USED_GB', 'USED_GB'),
+m.rollup_timestamp AS rollup_timestamp,
+sum(m.average) AS value
+FROM
+mgmt$metric_daily m,
+mgmt$target_type t
+WHERE
+t.target_guid='7C38DC2A2BB3ABD76C80F41B4' AND
+(t.target_type='rac_database' OR
+(t.target_type='oracle_database' AND t.TYPE_QUALIFIER3 != 'RACINST')) AND
+m.target_guid=t.target_guid AND
+m.metric_guid=t.metric_guid AND
+t.metric_name='DATABASE_SIZE' AND
+(t.metric_column='ALLOCATED_GB' OR t.metric_column='USED_GB') AND
+m.rollup_timestamp >= '20-NOV-2019' AND
+m.rollup_timestamp <= '20-FEB-2020'
+GROUP BY m.metric_column, m.rollup_timestamp
+ORDER BY 1,2
+/
+

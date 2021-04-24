@@ -1,0 +1,12 @@
+set line 150
+col OPNAME for a33
+col USERNAME for a10
+col "Time left Hrs and Mins" for a22 justify center
+select username,sid,serial#,opname, sofar, totalwork, round((sofar/totalwork)*100,2) "% Complete",
+' '||trunc((time_remaining/3600)) ||' Hrs and ' || round(mod(time_remaining/60,60))|| ' Mins' "Time left Hrs and Mins"
+from v$session_longops
+WHERE
+opname NOT LIKE '%aggregate%'
+AND totalwork != 0
+AND sofar <> totalwork
+/

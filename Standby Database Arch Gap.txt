@@ -1,0 +1,3 @@
+select inst_id,process,pid,status,thread#,sequence#, block# from gv$managed_standby where process like 'MRP%';
+
+select to_char(sysdate,'DD.MM.RR HH24:MI: SS') time, a.thread#, (select max (sequence#) from v$archived_log where archived='YES' and thread#=a.thread#) archived, max (a.sequence#) applied, (select max (sequence#) from v$archived_log where archived='YES' and thread#=a.thread#)-max (a.sequence#) gap from v$archived_log a where a.applied='YES' group by a.thread#;

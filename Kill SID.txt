@@ -1,0 +1,26 @@
+column kill format a40
+column pid format a5
+column sid format a7
+column box format a7
+column username format a20
+column ser# format a5
+column os_user format a10
+column program format a30
+
+SELECT 'ALTER SYSTEM KILL SESSION '''|| b.SID || ',' || b.SERial#||''';' kill,
+a.spid pid,
+SUBSTR(b.SID,1,5) SID,
+SUBSTR(b.serial#,1,5) ser#,
+SUBSTR(b.machine,1,6) box,
+SUBSTR(b.username,1,10) username,
+SUBSTR(b.osuser,1,8) os_user,
+SUBSTR(b.program,1,30) program
+FROM
+v$session b,
+v$process a
+WHERE
+b.paddr = a.addr
+AND TYPE='USER'
+and sid=&sid
+ORDER BY spid
+;

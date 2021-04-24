@@ -1,0 +1,16 @@
+Below is the script to check current running SQL’s in Oracle Database.
+
+SET COLSEP '|'
+SET LINE 190
+set pages 19000
+COLUMN SQL_TEXT FORMAT A120
+select sid, s.SQL_ID,
+s.sql_text,
+v.username,
+v.status, v.action
+from v$session v, v$sqlarea s
+where v.sql_address = s.address
+and v.sql_hash_value = s.hash_value
+AND V.STATUS='ACTIVE'
+/
+

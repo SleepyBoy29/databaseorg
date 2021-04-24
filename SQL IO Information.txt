@@ -1,0 +1,22 @@
+set colsep '|'
+set pagesize 100
+set linesize 150
+column username format a20
+column sql_text format a30
+column optimizer_cost format 999999
+column username format a15
+column sid format 9999
+column status format a10
+SET VERIFY OFF
+
+select s.sql_text,
+v.sid,
+v.username,
+v.status,
+s.buffer_gets,
+s.disk_reads,
+s.direct_writes,
+s.optimizer_cost
+from v$session v, v$sql s
+where v.sql_id=s.sql_id and username is not null
+and v.username=upper('&username');

@@ -1,0 +1,19 @@
+set line 150
+column username format a15
+column object format a20
+column sql_text format a30
+
+SELECT L.SESS,L.INST_ID,L.SID,S.SERIAL#,SUBSTR(LO.PROCESS,INSTR(LO.PROCESS,':')+1) SPID,LO.ORACLE_USERNAME USERNAME,S.STATUS,OB.OWNER||'.'||OB.OBJECT_NAME OBJECT,L.LMODE,L.REQUEST,L.TYPE,S.MACHINE,SQ.sql_text
+FROM
+GV$SESSION S,GV$SQLAREA SQ, GV$LOCKED_OBJECT LO,DBA_OBJECTS OB,
+(SELECT DECODE(request,0,'Holder: ','Waiter: ')SESS,SID,INST_ID,
+id1, id2,lmode, request, TYPE
+FROM GV$LOCK
+WHERE (id1, Id2, TYPE) IN
+(SELECT id1, id2, TYPE FROM GV$LOCK WHERE request>0)
+ORDER BY id1, request) L
+WHERE L.SID=S.SID
+AND OB.OBJECT_ID=LO.OBJECT_ID
+AND L.SID=LO.SESSION_ID
+AND S.sql_address = SQ.address
+AND S.sql_hash_value = SQ.hash_value;

@@ -1,0 +1,59 @@
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0.4/dbhome_1
+export ORACLE_SID=DBORGDR
+export PATH=$PATH:$ORACLE_HOME/bin
+export LOG=/backup/standby/dborgdr/Build_STANDBY.log
+rman target / <<EOF>>$LOG
+run
+{
+allocate channel ch1 device type disk;
+allocate channel ch2 device type disk;
+allocate channel ch3 device type disk;
+allocate channel ch4 device type disk;
+allocate channel ch5 device type disk;
+allocate channel ch6 device type disk;
+allocate channel ch7 device type disk;
+allocate channel ch8 device type disk;
+set newname for datafile 1 to '/u02/dborgdr/oradata/datafiles/system.dbf';
+set newname for datafile 2 to '/u02/dborgdr/oradata/datafiles/sysaux.dbf';
+set newname for datafile 3 to '/u02/dborgdr/oradata/datafiles/undotbs.dbf';
+set newname for datafile 4 to '/u02/dborgdr/oradata/datafiles/users.dbf';
+set newname for datafile 5 to '/u02/dborgdr/oradata/datafiles/DBORG.dbf';
+set newname for datafile 6 to '/u02/dborgdr/oradata/datafiles/LOAD.dbf';
+set newname for datafile 7 to '/u02/dborgdr/oradata/datafiles/DATA.dbf';
+set newname for datafile 8 to '/u02/dborgdr/oradata/datafiles/REPORT.dbf';
+set newname for datafile 9 to '/u02/dborgdr/oradata/datafiles/SHAPES.dbf';
+set newname for datafile 10 to '/u02/dborgdr/oradata/datafiles/GLASS.DBF';
+set newname for datafile 11 to '/u02/dborgdr/oradata/datafiles/LABS.DBF';
+set newname for datafile 12 to '/u02/dborgdr/oradata/datafiles/MCT.dbf';
+set newname for datafile 13 to '/u02/dborgdr/oradata/datafiles/BKPD.dbf';
+set newname for datafile 14 to '/u02/dborgdr/oradata/datafiles/VIEWS.dbf';
+set newname for datafile 15 to '/u02/dborgdr/oradata/datafiles/TADSQ.dbf';
+set newname for datafile 16 to '/u02/dborgdr/oradata/datafiles/LOAD1.dbf';
+set newname for datafile 17 to '/u02/dborgdr/oradata/datafiles/LOAD2.dbf';
+set newname for datafile 18 to '/u02/dborgdr/oradata/datafiles/undotbs01.dbf';
+set newname for datafile 19 to '/u02/dborgdr/oradata/datafiles/sysaux01.dbf';
+set newname for datafile 20 to '/u02/dborgdr/oradata/datafiles/users1.dbf';
+set newname for datafile 21 to '/u02/dborgdr/oradata/datafiles/system1.dbf';
+set newname for datafile 22 to '/u02/dborgdr/oradata/datafiles/LOAD3.dbf';
+set newname for datafile 23 to '/u02/dborgdr/oradata/datafiles/LOAD4.dbf';
+set newname for datafile 24 to '/u02/dborgdr/oradata/datafiles/MCT1.dbf';
+set newname for tempfile 1 to '/u02/dborgdr/oradata/datafiles/temp01.dbf';
+set newname for tempfile 2 to '/u02/dborgdr/oradata/datafiles/temp02.dbf';
+set newname for tempfile 3 to '/u02/dborgdr/oradata/datafiles/temp03.dbf';
+set newname for tempfile 4 to '/u02/dborgdr/oradata/datafiles/temp05.dbf';
+set newname for tempfile 5 to '/u02/dborgdr/oradata/datafiles/temp04.dbf';
+restore database;
+switch datafile all;
+switch tempfile all;
+recover database;
+release channel ch1;
+release channel ch2;
+release channel ch3;
+release channel ch4;
+release channel ch5;
+release channel ch6;
+release channel ch7;
+release channel ch8;
+}
+exit
+EOF

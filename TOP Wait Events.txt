@@ -1,0 +1,17 @@
+set echo off
+set feedback off
+set termout off
+set pagesize 100
+set numwidth 10
+column event format a40 truncate
+column name format a35 truncate
+column opname format a35 truncate
+column value format 99999999999999
+select event, total_waits, time_waited, average_wait*10 from v$system_event
+where time_waited > 100 and
+event not like 'rdbms ipc %'
+and event not like '%timer%'
+and lower(event) not like '%idle%'
+and lower(event) not like 'sql%net%'
+and event not like 'ges%'
+order by time_waited desc;

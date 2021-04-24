@@ -1,0 +1,7 @@
+set line 190
+column event format a40
+
+select
+w.sid, w.event, w.row_wait_obj# obj, w.row_wait_file# file_name, w.row_wait_block# block, w.row_wait_row# row_name
+from v$session s, v$session w
+where w.blocking_session = s.sid ;

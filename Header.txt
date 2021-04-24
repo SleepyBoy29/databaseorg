@@ -1,0 +1,12 @@
+set colsept'|'
+set verify off
+column owner format a25
+column segment_name format a25
+column segment_type format a30
+column partition_name format a30
+
+SELECT owner, segment_name, segment_type, partition_name
+FROM dba_segments
+WHERE header_file = &AFN
+and header_block = &BL
+;

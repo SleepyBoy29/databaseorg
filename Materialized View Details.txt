@@ -1,0 +1,9 @@
+set colsep '|'
+
+column objec_name format a30
+column object_type format a30
+
+SELECT owner, object_name, object_type, dbms_metadata.get_ddl(replace(OBJECT_TYPE, ' ', '_'), OBJECT_NAME,OWNER)
+FROM DBA_OBJECTS
+WHERE OBJECT_TYPE = 'MATERIALIZED VIEW'
+and object_name like '&mview_name'

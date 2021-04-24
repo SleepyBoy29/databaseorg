@@ -1,0 +1,4 @@
+set line 190
+column opname format a30
+column message format a30
+select sid,username,opname,message,sofar,totalwork,(sofar/totalwork)*100 "PER%" from v$session_longops where sofar<>totalwork;

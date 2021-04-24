@@ -1,0 +1,2 @@
+select table_name,last_analyzed from dba_Tables where table_name in
+(select object_name from dba_objects where object_id in(select distinct CURRENT_OBJ# from dba_hist_active_sess_history where sql_id='a6m5gtr8amj3v' and CURRENT_OBJ# >0)) and owner!='SYS';

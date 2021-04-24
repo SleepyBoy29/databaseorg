@@ -1,0 +1,8 @@
+set line 190
+column path format a30
+
+select a.GROUP_NUMBER,b.DISK_NUMBER,b.FREE_MB,b.NAME,b.STATE,b.REDUNDANCY,b.OS_MB,b.path,b.create_date
+from v$asm_diskgroup a, v$asm_disk b
+where a.GROUP_NUMBER=b.GROUP_NUMBER
+order by 1,2
+;

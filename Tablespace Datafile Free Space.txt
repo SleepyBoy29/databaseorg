@@ -1,0 +1,15 @@
+SET COLSEP '|'
+COLUMN TABLESPACE_NAME FOR A30
+
+Select a.tablespace_name,d.file_name,b.bytes/1024/1024 bytes_free_mb ,c.total_free "total_free_mb", c.total_free - b.bytes/1024/1024 "diffrence"
+From (select tablespace_name,file_id,max(block_id) max_data_block_id
+from dba_extents
+group by tablespace_name,file_id) a
+,dba_free_space b, (select sum(bytes)/1024/1024 total_Free,file_id from dba_free_space group by file_id) c,dba_data_files d
+where a.tablespace_name = b.tablespace_name
+and a.file_id = b.file_id
+and a.file_id=c.file_id
+AND A.TABLESPACE_NAME LIKE '%&TABLESPACE%'
+and a.file_id=d.file_id
+and b.block_id > a.max_data_block_id
+/

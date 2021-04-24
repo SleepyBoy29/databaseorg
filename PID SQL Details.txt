@@ -1,0 +1,14 @@
+set colsep '|'
+set pagesize 100
+set linesize 130
+set colsep '|'
+column username format a12
+column sql_text format a70 word_wrapped
+column sid format 9999
+column status format a10
+select v.sid sid,p.spid pid, v.username username, v.status status, s.sql_Text sql_text
+from v$session v, v$sqlarea s,v$process p
+where v.sql_address = s.address
+and v.sql_hash_value = s.hash_value
+and p.addr=v.paddr
+and p.spid=&processno;

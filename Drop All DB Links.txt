@@ -1,0 +1,24 @@
+declare
+myint integer;
+sqltext varchar2(1000);
+l_sql_TRI varchar2(4000);
+uid number;
+cursor cur_objects is
+select a.owner,a.db_link from dba_db_links a;
+begin
+for rec_objects in cur_objects loop
+if (rec_objects.owner='PUBLIC') then
+sqltext := 'drop public database link '|| rec_objects.db_link ;
+execute immediate sqltext;
+else
+l_sql_TRI:='select user_id from dba_users where username =' || '''' || rec_objects.owner || '''' ;
+dbms_output.put_line( l_sql_TRI );
+execute immediate l_sql_TRI into uid;
+sqltext := 'drop database link '|| rec_objects.db_link ;
+myint:=sys.dbms_sys_sql.open_cursor();
+sys.dbms_sys_sql.parse_as_user(myint,sqltext,dbms_sql.native,UID);
+sys.dbms_sys_sql.close_cursor(myint);
+end if;
+end loop;
+end;
+/

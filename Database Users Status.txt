@@ -1,0 +1,5 @@
+set colsep '|'
+set pagesize 100
+column username format a30
+column status format a30
+select username,account_status from dba_users order by username;

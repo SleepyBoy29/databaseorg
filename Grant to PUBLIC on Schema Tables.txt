@@ -1,0 +1,12 @@
+declare
+l_sql_GRANTPUB varchar2(4000);
+
+begin
+for x in (select table_name from dba_tables where owner in('SCOTT'))
+loop
+l_sql_GRANTPUB:='grant SELECT on SCOTT.' || x.table_name || ' to PUBLIC';
+dbms_output.put_line( l_sql_GRANTPUB );
+execute immediate l_sql_GRANTPUB;
+end loop;
+end;
+/
